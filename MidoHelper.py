@@ -14,7 +14,7 @@ class Note:
     def StrPitch(strPitch: str, denominator: int):
         name = strPitch[0]
         octave = int(strPitch[1])
-        return Note(16 + Note.PitchNameMapping[name] + 8 * octave, 1.0 / denominator)
+        return Note(16 + Note.PitchNameMapping[name] + 12 * octave, 1.0 / denominator)
 
     @staticmethod
     def Rest(denominator: int):
