@@ -37,12 +37,32 @@ class Note:
         return Note(0, duration, noteOn=False)
 
 
+class Instrument:
+    def __init__(self, value: int):
+        self.value = value
+
+
+class InstrumentHelper:
+    Violin = Instrument(41)
+    Trombone = Instrument(58)
+    Bassoon = Instrument(71)
+    Clarinet = Instrument(72)
+    Default = Clarinet
+
+
 class MidoHelper:
-    def __init__(self, notes: list, tempo: int=60, numerator: int=4, denominator: int=4):
-        self.notes = notes
+    def __init__(self, tempo: int=60, numerator: int=4, denominator: int=4):
+        self.tracks = list()
         self.tempo = tempo
         self.numerator = numerator
         self.denominator = denominator
+
+    def addTrack(self, notes: list, instrument: Instrument=InstrumentHelper.Default):
+        self.tracks.append({'list': notes, 'instrument': instrument})
+        return self
+
+    def getDefaultTrackNotes(self):
+        return self.tracks[0]['list']
 
     def export(self, filename: str):
         mid = MidiFile()
@@ -52,19 +72,23 @@ class MidoHelper:
         metaTrack.append(MetaMessage('set_tempo', tempo=int(mido.tempo2bpm(self.tempo))))
         metaTrack.append(MetaMessage('time_signature', numerator=self.numerator, denominator=self.denominator))
 
-        track = MidiTrack()
-        mid.tracks.append(track)
-        track.append(Message('program_change', program=72, time=0))
+        for track in self.tracks:
+            midiTrack = MidiTrack()
+            mid.tracks.append(midiTrack)
+            program = track['instrument'].value
 
-        delta = 480 * self.denominator
-        noteDelay = 0.0
-        for note in self.notes:
-            if note.noteOn:
-                track.append(Message('note_on', note=note.pitch, time=int(noteDelay)))
-                noteDelay = 0
-                track.append(Message('note_off', note=note.pitch, time=int(delta*note.duration)))
-            else:
-                noteDelay += delta*note.duration
+            midiTrack.append(Message('program_change', program=program, time=0))
+
+            notes = track['list']
+            delta = 480 * self.denominator
+            noteDelay = 0.0
+            for note in notes:
+                if note.noteOn:
+                    midiTrack.append(Message('note_on', note=note.pitch, time=int(noteDelay)))
+                    noteDelay = 0
+                    midiTrack.append(Message('note_off', note=note.pitch, time=int(delta*note.duration)))
+                else:
+                    noteDelay += delta*note.duration
 
         mid.save(filename)
 
@@ -97,4 +121,4 @@ class MidoHelper:
             elif message.type == 'note_off':
                 notes.append(Note(message.note, message.time/delta))
 
-        return MidoHelper(notes, tempo, numerator, denominator)
+        return MidoHelper(tempo, numerator, denominator).addTrack(notes)

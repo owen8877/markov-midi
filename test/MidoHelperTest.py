@@ -14,7 +14,8 @@ notes = [
     Note.StrPitch('G5', 4),
 ]
 
-midi = MidoHelper(notes, tempo=90, denominator=4)
+midi = MidoHelper(tempo=90, denominator=4)
+midi.addTrack(notes)
 # midi.export("test.mid")
 
 midi2 = MidoHelper.read('../cuphead.mid', trackId=1)
