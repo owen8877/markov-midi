@@ -15,6 +15,12 @@ class Note:
         subIndex = self.pitch % 12
         octave = self.pitch // 12 - 1
         return '{}{} 1/{}{}'.format(Note.ReverseMapping[subIndex], octave, 1/self.duration, '' if self.noteOn else ' rest')
+    
+    def __eq__(self, other):
+        return self.pitch == other.pitch and self.duration == other.duration and self.noteOn == other.noteOn
+    
+    def __hash__(self):
+        return hash(self.pitch) + hash(self.duration) + hash(self.noteOn)
 
     @staticmethod
     def StrPitch(strPitch: str, denominator: int):
