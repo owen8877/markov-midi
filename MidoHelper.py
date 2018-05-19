@@ -16,6 +16,11 @@ class Note:
         octave = self.pitch // 12 - 1
         return '{}{} 1/{}{}'.format(Note.ReverseMapping[subIndex], octave, 1/self.duration, '' if self.noteOn else ' rest')
     
+    
+    def __repr__(self):
+        return str(self)
+    
+    
     def __eq__(self, other):
         return self.pitch == other.pitch and self.duration == other.duration and self.noteOn == other.noteOn
     

@@ -71,6 +71,41 @@ def getIndependentRandomMusic(deg: int, *trk):
     return ret
 
 
+def printTransitionMatrix(init, cnt):
+    with open("trans.txt", "w") as f:
+        f.write("Notes:\n")
+        for note in init.keys():
+            f.write(str(note) + " ")
+        f.write("\n")
+        for fr in init.keys():
+            w = [0] * len(init)
+            sum = 0
+            for i, to in enumerate(init.keys()):
+                if cnt.get((fr, to)) is not None:
+                    sum = sum + cnt[(fr, to)]
+                    w[i] = cnt[(fr, to)]
+            if sum == 0:
+                sum = 1
+            for v in w:
+                f.write("{0:.2f} ".format(float(v) / sum))
+            f.write("\n")
+
+
+def drawTransitionMatrix(init, cnt):
+    import networkx as nx
+    import pylab
+    G = nx.DiGraph()
+    for n in init.keys():
+        G.add_node(n)
+    for k, v in cnt.items():
+        G.add_edge(k[0], k[1], weight = v)
+    edge_labels = dict([((u, v,), d['weight']) for u, v, d in G.edges(data = True)])
+    pos = nx.spring_layout(G)
+    nx.draw_networkx_edge_labels(G, pos, edge_labels = edge_labels)
+    nx.draw(G, pos)
+    pylab.show()
+
+
 inst = [InstrumentHelper.Clarinet, InstrumentHelper.Bassoon, InstrumentHelper.Violin]
 m = getCompoundRandomMusic(1, *[MidoHelper.read('cuphead.mid', trackId=x).getDefaultTrackNotes() for x in [1, 4, 7]])
 output = MidoHelper.read("cuphead.mid", trackId = 1)
@@ -85,6 +120,10 @@ output = MidoHelper(output.tempo, output.numerator, output.denominator)
 for i, st in enumerate(m):
     output.addTrack(st, inst[i])
 output.export("cuphead_random_independent_deg1.mid")
+
+mido = MidoHelper.read('cuphead.mid', trackId = 1)
+init, cnt = getTransitionMatrix(mido.getDefaultTrackNotes(), 1)
+printTransitionMatrix(init, cnt)
 #midi = MidoHelper.read('cuphead.mid', trackId=1)
 #midi2 = MidoHelper.read('cuphead.mid', trackId=2)
 #res = splitNotes(midi)
