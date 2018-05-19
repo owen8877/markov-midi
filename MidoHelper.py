@@ -38,15 +38,20 @@ class Note:
 
 
 class Instrument:
-    def __init__(self, value: int):
+    def __init__(self, value: int, name: str):
         self.value = value
+        self.name = name
 
 
 class InstrumentHelper:
-    Violin = Instrument(41)
-    Trombone = Instrument(58)
-    Bassoon = Instrument(71)
-    Clarinet = Instrument(72)
+    Harpsichord = Instrument(7, 'Harpsichord')
+    Violin = Instrument(41, 'Violin')
+    Viola = Instrument(42, 'Viola')
+    Cello = Instrument(43, 'Cello')
+    Contrabass = Instrument(44, 'Contrabass')
+    Trombone = Instrument(58, 'Trombone')
+    Bassoon = Instrument(71, 'Bassoon')
+    Clarinet = Instrument(72, 'Clarinet')
     Default = Clarinet
 
 
