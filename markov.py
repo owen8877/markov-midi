@@ -91,6 +91,26 @@ def printTransitionMatrix(init, cnt):
             f.write("\n")
 
 
+def printTransitionMatrix2(init, cnt):
+    with open("trans.txt", "w") as f:
+        f.write("Notes:\n")
+        for note in init.keys():
+            f.write(" {}".format(note[0].pitch))
+        f.write("\n")
+        for fr in init.keys():
+            w = [0] * len(init)
+            sum = 0
+            for i, to in enumerate(init.keys()):
+                if cnt.get((fr, to)) is not None:
+                    sum = sum + cnt[(fr, to)]
+                    w[i] = cnt[(fr, to)]
+            if sum == 0:
+                sum = 1
+            for v in w:
+                f.write("{0:.2f} ".format(float(v) / sum))
+            f.write("\n")
+
+
 def drawTransitionMatrix(init, cnt):
     import networkx as nx
     import pylab
@@ -106,23 +126,23 @@ def drawTransitionMatrix(init, cnt):
     pylab.show()
 
 
-inst = [InstrumentHelper.Clarinet, InstrumentHelper.Bassoon, InstrumentHelper.Violin]
-m = getCompoundRandomMusic(1, *[MidoHelper.read('cuphead.mid', trackId=x).getDefaultTrackNotes() for x in [1, 4, 7]])
-output = MidoHelper.read("cuphead.mid", trackId = 1)
-output = MidoHelper(output.tempo, output.numerator, output.denominator)
-for i, st in enumerate(m):
-    output.addTrack(st, inst[i])
-output.export("cuphead_random_compound_deg1.mid")
+# inst = [InstrumentHelper.Clarinet, InstrumentHelper.Bassoon, InstrumentHelper.Violin]
+# m = getCompoundRandomMusic(1, *[MidoHelper.read('cuphead.mid', trackId=x).getDefaultTrackNotes() for x in [1, 4, 7]])
+# output = MidoHelper.read("cuphead.mid", trackId = 1)
+# output = MidoHelper(output.tempo, output.numerator, output.denominator)
+# for i, st in enumerate(m):
+#     output.addTrack(st, inst[i])
+# output.export("cuphead_random_compound_deg1.mid")
+#
+# m = getIndependentRandomMusic(1, *[MidoHelper.read('cuphead.mid', trackId=x).getDefaultTrackNotes() for x in [1, 4, 7]])
+# output = MidoHelper.read("cuphead.mid", trackId = 1)
+# output = MidoHelper(output.tempo, output.numerator, output.denominator)
+# for i, st in enumerate(m):
+#     output.addTrack(st, inst[i])
+# output.export("cuphead_random_independent_deg1.mid")
 
-m = getIndependentRandomMusic(1, *[MidoHelper.read('cuphead.mid', trackId=x).getDefaultTrackNotes() for x in [1, 4, 7]])
-output = MidoHelper.read("cuphead.mid", trackId = 1)
-output = MidoHelper(output.tempo, output.numerator, output.denominator)
-for i, st in enumerate(m):
-    output.addTrack(st, inst[i])
-output.export("cuphead_random_independent_deg1.mid")
-
-mido = MidoHelper.read('cuphead.mid', trackId = 1)
-init, cnt = getTransitionMatrix(mido.getDefaultTrackNotes(), 1)
+mido = MidoHelper.read('music/sample/RV156_viola.mid', trackId = 1)
+init, cnt = getTransitionMatrix(mido.getDefaultTrackNotes(), 2)
 printTransitionMatrix(init, cnt)
 #midi = MidoHelper.read('cuphead.mid', trackId=1)
 #midi2 = MidoHelper.read('cuphead.mid', trackId=2)

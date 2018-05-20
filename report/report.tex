@@ -8,6 +8,9 @@
 \usepackage{geometry}
 \geometry{a4paper}
 
+\def\quad{\hskip1em\relax}
+\def\qquad{\hskip2em\relax}
+
 \usepackage{graphicx}
 \usepackage{booktabs}
 \usepackage{array}
@@ -30,7 +33,7 @@
 \renewcommand{\cftsecpagefont}{\rmfamily\mdseries\upshape}
 
 \title{音乐与数学第20组期中报告}
-\author{The Author}
+\author{陈子恒,李冉,刘清越,马龙,闫明羽,杨一龙}
 
 \begin{document}
 \maketitle
@@ -38,7 +41,7 @@
 \part{综述回顾}
 音乐的创作是贯穿人类历史中不可或缺的一部分，随着音乐理论的发展与技法的成熟，人们也在不断追寻新的创作理论。在过去的20世纪中，随着数学的发展，特别是随机过程论的建立，使得用\textbf{随机数}来创作音乐成为可能。我们首先回顾这方面已有的工作。
 \section{音乐创作实验}
-以 \cite{Brooks:1992:EMC:167765.167774} 的工作为例：
+以 \cite{5222016} 的工作为例：
 \subsection{旧有工作的困难点}
 从样本中获取足够的信息，随后对新元素与已经存在的元素进行演绎，不仅取决于分析的复杂性，还取决于所分析的样本的特征。
 试想一项工作仅分析少数曲调并且将分析的结果运用于演绎产生新曲调的随机过程。
@@ -47,23 +50,23 @@
 	\centering
 	\label{fig:1.1.1}
 	\includegraphics[width=\textwidth]{pic/1.1.1.eps}
-	\caption{Figure 1.1.1}
+	\caption{演绎生成的一般过程}
 \end{figure}	
-如图 \ref{fig:1.1.1} 所示，这个图表显示了将 $S1, \dots, Sn$ 作为样本的分析过程，他们属于某种相同的结构，将其标记为 $G$ 。
-从 $G$ 中演绎出来新的结构，标记为 $S'$ ，我们希望它与之前的样本具有相同的结构。
+如图 1 所示，这个图表显示了将 $S1, \dots, Sn$ 作为样本的分析过程，他们属于某种相同的结构，将其标记为 $G$ 。
+从 $G$ 中演绎出来新的结构，标记为 $S'$ ，我们希望它与之前的样本具有相同的类别。
 \begin{itemize}
-\item 第一个困难点在于太过简单的分析会使得一般化的 $G$ 的结构过于松散，而导致演绎出来的 $S'$ 与之前的样本不属于同一结构。
+\item 第一个困难点在于太过简单的分析会使得一般化的 $G$ 的结构过于松散，而导致演绎出来的 $S'$ 与之前的样本不属于同一类别。
 \item 第二个困难点在于样本量可能太小以至于不管分析多复杂都无法较好地演绎出一个一般化的 $G$ 。
 \item 第三个困难点在于当构建一般化的 $G$ 时，样本成员可能十分相像，这可能导致在创建新的结构 $S'$ 时，无法创造出新的与样本 $S$ 结构不同而又属于同一类别的结构。
 \end{itemize} 
 
 \subsection{随机过程的方法}
-以如下结构 \ref{fig:1.1.2} 为例
+以如下结构图 2 为例
 \begin{figure}[hptb]
 	\centering
 	\label{fig:1.1.2}
 	\includegraphics[width=0.5\textwidth]{pic/1.1.2.eps}
-	\caption{Figure 1.1.2}
+	\caption{序列举例}
 \end{figure}	
 我们可以得到，在 C-E-G 后出现 A, C, E, G 的概率分别为
 $$ P(A) = 2/10 = 0.2 $$
@@ -80,9 +83,9 @@ $$ G \quad 0.5 \le x < 1.0 $$
 	\centering
 	\label{fig:1.1.3}
 	\includegraphics[width=\textwidth]{pic/1.1.3.eps}
-	\caption{Figure 1.1.3}
+	\caption{一些随机生成的音乐}
 \end{figure}
-图 \ref{fig:1.1.3} 为马尔科夫链 $m=1,2,4,6,8$ 时的一个试验结果。
+图 3 为马尔科夫链 $m=1,2,4,6,8$ 时的一个试验结果。
 
 \section{连续音乐领域}
 这里我们着眼于 \cite{10.2307/24955701} 的工作。
@@ -107,7 +110,7 @@ Richard F. Voss的研究表明，好的音乐似乎反映了世界的微妙的�
 	\centering
 	\label{fig:1.2.1}
 	\includegraphics[width=\textwidth]{pic/1.2.1.eps}
-	\caption{Figure 1.2.1}
+	\caption{不同类型噪声的图示}
 \end{figure}
 
 \subsection{世界中的 $1/f$ 噪声}
@@ -129,7 +132,7 @@ Richard F. Voss的研究表明，好的音乐似乎反映了世界的微妙的�
 \item 布朗噪声：扔一个骰子，奇数音级+1，偶数音级-1.
 \item $1/f$噪声：三个骰子，分别是红、蓝、绿色的。他们投出的数字的总和（3-18）分别对应16个音符。
 \end{itemize}
-现在我们要产生一段8个音符的片段。将0~7对应成二进制的000~111，每一位对应一个骰子（如图\ref{fig:1.2.3}所示）
+现在我们要产生一段8个音符的片段。将0~7对应成二进制的000~111，每一位对应一个骰子（如图 6 所示）
 
 \begin{figure}[hptb]
 	\centering
@@ -178,12 +181,84 @@ $$
 我们选择了广泛的音乐序列来源，分别有
 \begin{enumerate}
 \item \textbf{cuphead.mid} 横版射击游戏 Cuphead 中的背景音乐 \emph{Inkwell Isle One}
+\begin{figure}[hptb]
+	\centering
+	\label{fig:cuphead}
+	\includegraphics[width=\textwidth]{pic/cuphead.eps}
+	\caption{cuphead}
+\end{figure}
 \item \textbf{K465.mid} 莫扎特第 19 首弦乐四重奏 \emph{不和谐音} 第一乐章的引子部分
+\begin{figure}[hptb]
+	\centering
+	\label{fig:K465}
+	\includegraphics[width=\textwidth]{pic/K465.eps}
+	\caption{K465}
+\end{figure}
 \item \textbf{Mahler.mid} 马勒第五交响曲第四乐章
+\begin{figure}[hptb]
+	\centering
+	\label{fig:Mahler}
+	\includegraphics[width=\textwidth]{pic/Mahler.eps}
+	\caption{Mahler}
+\end{figure}
 \item \textbf{RV156.mid} 维瓦尔第 g 小调弦乐协奏曲第一乐章
+\begin{figure}[hptb]
+	\centering
+	\label{fig:RV156}
+	\includegraphics[width=\textwidth]{pic/RV156.eps}
+	\caption{RV156}
+\end{figure}
 \end{enumerate}
 对于这些乐曲，我们分别生成了相应的随机乐曲，以下是一些参考输出：
 \begin{enumerate}
+\item \textbf{cuphead-independent-deg1-Clarinet-ignore} 仅考虑音高的 1 阶单声部，基于 cuphead 而作。
+\begin{figure}[hptb]
+	\centering
+	\label{fig:cuphead-independent-deg1-Clarinet-ignore}
+	\includegraphics[width=\textwidth]{pic/cuphead-independent-deg1-Clarinet-ignore.eps}
+	\caption{cuphead-independent-deg1-Clarinet-ignore}
+\end{figure}
+
+\item \textbf{cuphead-independent-deg1-Clarinet} 1 阶单声部，基于 cuphead 而作。
+\begin{figure}[hptb]
+	\centering
+	\label{fig:cuphead-independent-deg1-Clarinet}
+	\includegraphics[width=\textwidth]{pic/cuphead-independent-deg1-Clarinet.eps}
+	\caption{cuphead-independent-deg1-Clarinet}
+\end{figure}
+
+\item \textbf{cuphead-compound-deg1-Clarinet-Bassoon-Violin} 1 阶三声部，基于 cuphead 而作。
+\begin{figure}[hptb]
+	\centering
+	\label{fig:cuphead-compound-deg1-Clarinet-Bassoon-Violin}
+	\includegraphics[width=\textwidth]{pic/cuphead-compound-deg1-Clarinet-Bassoon-Violin.eps}
+	\caption{cuphead-compound-deg1-Clarinet-Bassoon-Violin}
+\end{figure}
+
+\item \textbf{Mahler-compound-deg4-Violin-Violin-Viola-Viola-Cello-Contrabass} 4 阶六声部，基于 Mahler 第五交响曲而作。
+\begin{figure}[hptb]
+	\centering
+	\label{fig:Mahler-compound-deg4-Violin-Violin-Viola-Viola-Cello-Contrabass}
+	\includegraphics[width=\textwidth]{pic/Mahler-compound-deg4-Violin-Violin-Viola-Viola-Cello-Contrabass.eps}
+	\caption{Mahler-compound-deg4-Violin-Violin-Viola-Viola-Cello-Contrabass}
+\end{figure}
+
+\item \textbf{RV156-independent-deg2-Cello} 2 阶单声部，基于 RV156 而作。
+\begin{figure}[hptb]
+	\centering
+	\label{fig:RV156-independent-deg2-Cello}
+	\includegraphics[width=\textwidth]{pic/RV156-independent-deg2-Cello.eps}
+	\caption{RV156-independent-deg2-Cello}
+\end{figure}
+
+\item \textbf{RV156-compound-deg4-Violin-Violin-Viola-Cello-Cello-Harpsichord} 4 阶六声部，基于 RV156 而作。
+\begin{figure}[hptb]
+	\centering
+	\label{fig:RV156-compound-deg4-Violin-Violin-Viola-Cello-Cello-Harpsichord}
+	\includegraphics[width=\textwidth]{pic/RV156-compound-deg4-Violin-Violin-Viola-Cello-Cello-Harpsichord.eps}
+	\caption{RV156-compound-deg4-Violin-Violin-Viola-Cello-Cello-Harpsichord}
+\end{figure}
+
 \item \textbf{K465-compound-deg4-Violin-Violin-Viola-Cello} 4 阶四声部，基于 K465 而作。
 \begin{figure}[hptb]
 	\centering
@@ -192,6 +267,73 @@ $$
 	\caption{K465-compound-deg4-Violin-Violin-Viola-Cello}
 \end{figure}
 \end{enumerate}
+在实现过程中，我们使用了 Python 语言的特性来存储转移概率矩阵；尽管如此，我们仍能够输出矩阵形式的转移概率，以下是根据 \textbf{RV156.mid} 中中提琴声部的音高部分得到的转移概率矩阵和相应的示意图 18 ：
+\begin{verbatim}
+order 1
+#A4  A4   G4   #D4  C4   F4   D4   #A3  A3   #F4  E4   F3   #C4  rest #G4 
+0.22 0.56 0.00 0.00 0.00 0.00 0.22 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+0.07 0.58 0.16 0.00 0.00 0.02 0.12 0.00 0.02 0.02 0.00 0.00 0.00 0.00 0.00 
+0.00 0.11 0.65 0.04 0.04 0.09 0.00 0.02 0.00 0.00 0.00 0.00 0.00 0.02 0.02 
+0.00 0.00 0.00 0.20 0.40 0.00 0.40 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+0.00 0.05 0.00 0.02 0.52 0.05 0.16 0.09 0.11 0.00 0.00 0.00 0.00 0.00 0.00 
+0.00 0.12 0.08 0.00 0.00 0.42 0.12 0.04 0.00 0.00 0.23 0.00 0.00 0.00 0.00 
+0.02 0.02 0.08 0.00 0.18 0.03 0.52 0.06 0.00 0.00 0.10 0.00 0.00 0.00 0.00 
+0.09 0.00 0.00 0.04 0.09 0.00 0.04 0.61 0.00 0.00 0.09 0.00 0.00 0.04 0.00 
+0.00 0.14 0.00 0.00 0.14 0.00 0.43 0.00 0.00 0.00 0.00 0.29 0.00 0.00 0.00 
+0.00 0.00 0.00 0.00 0.00 0.00 0.33 0.00 0.00 0.67 0.00 0.00 0.00 0.00 0.00 
+0.00 0.03 0.00 0.00 0.10 0.14 0.14 0.00 0.03 0.00 0.52 0.00 0.03 0.00 0.00 
+0.00 0.00 0.00 0.00 0.00 1.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+0.00 0.00 0.00 0.00 0.00 0.00 0.17 0.00 0.00 0.00 0.00 0.00 0.83 0.00 0.00 
+0.00 0.00 1.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+0.00 0.00 0.00 0.00 0.00 0.00 1.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+
+order 2
+#A4->#A4 #A4->A4 #A4->G4 #A4->#D4 #A4->C4 #A4->F4 #A4->D4 #A4->#A3 #A4->A3 #A4->#F4 #A4->E4 #A4->F3 #A4->#C4 #A4->rest #A4->#G4
+0.12 0.62 0.00 0.00 0.00 0.00 0.25 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+0.07 0.58 0.16 0.00 0.00 0.02 0.12 0.00 0.02 0.02 0.00 0.00 0.00 0.00 0.00 
+0.00 0.11 0.65 0.04 0.04 0.09 0.00 0.02 0.00 0.00 0.00 0.00 0.00 0.02 0.02 
+0.00 0.00 0.00 0.20 0.40 0.00 0.40 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+0.00 0.05 0.00 0.02 0.52 0.05 0.16 0.09 0.11 0.00 0.00 0.00 0.00 0.00 0.00 
+0.00 0.12 0.08 0.00 0.00 0.42 0.12 0.04 0.00 0.00 0.23 0.00 0.00 0.00 0.00 
+0.02 0.02 0.08 0.00 0.18 0.03 0.52 0.06 0.00 0.00 0.10 0.00 0.00 0.00 0.00 
+0.09 0.00 0.00 0.04 0.09 0.00 0.04 0.61 0.00 0.00 0.09 0.00 0.00 0.04 0.00 
+0.00 0.14 0.00 0.00 0.14 0.00 0.43 0.00 0.00 0.00 0.00 0.29 0.00 0.00 0.00 
+0.00 0.00 0.00 0.00 0.00 0.00 0.33 0.00 0.00 0.67 0.00 0.00 0.00 0.00 0.00 
+0.00 0.03 0.00 0.00 0.10 0.14 0.14 0.00 0.03 0.00 0.52 0.00 0.03 0.00 0.00 
+0.00 0.00 0.00 0.00 0.00 1.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+0.00 0.00 0.00 0.00 0.00 0.00 0.17 0.00 0.00 0.00 0.00 0.00 0.83 0.00 0.00 
+0.00 0.00 1.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+0.00 0.00 0.00 0.00 0.00 0.00 1.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+\end{verbatim}
+
+\begin{figure}[hptb]
+	\centering
+	\label{fig:transport_matrix_visual}
+	\includegraphics[width=\textwidth]{pic/transport_matrix_visual.eps}
+	\caption{transport matrix visual}
+\end{figure}
+
+\section{结果对照}
+尽管随机生成的音乐在听觉上与原曲有着较大的差异，我们仍然能够进行一些定性上的分析：
+\begin{itemize}
+\item 对比 \textbf{cuphead-independent-deg1-Clarinet-ignore} 与 \textbf{cuphead-independent-deg1-Clarinet} 可知当节奏作为音乐元素参与了音符转移统计时，能够在随机生成的步骤中生成更合理的结果。在考虑了节奏变化之后，能够更贴近原曲明快的节奏和轻盈的氛围，这点在不考虑节奏变化的测试样例中是无法观察到的。
+\item \textbf{cuphead-compound-deg1-Clarinet-Bassoon-Violin} 作为一个复合生成结果，保留了更多的动机信息，在同样阶数的情况下与原曲更加相似。
+\item 由于 Mahler 的第五交响曲是一部意向宏大、气氛忧郁的作品，加上在处理和声输入时我们进行了时值的分割，因此我们将生成的结果进行了相同音之间的合并，以达到原曲的情绪。从 \textbf{Mahler-compound-deg4-Violin-Violin-Viola-Viola-Cello-Contrabass} 的谱面可见，在 4 阶转移概率的统计下，大部分的主题、动机素材得到了保留，并且能够生成中声部与低音声部绵延的长音，已经非常类似原曲了。
+\item 在 \textbf{RV156-independent-deg2-Cello} 的输出结果中，我们还是能够看到节奏上的一些细微变化。尽管我们没有限制这个样例只能输出同一节奏性，但是由于原曲中中、大提固有的简单节奏型，使得根据统计数据生成的模拟结果音型也较为固定。
+\item 相比之下 \textbf{RV156-compound-deg4-Violin-Violin-Viola-Cello-Cello-Harpsichord} 的 4 阶转移概率保留了更多的信息，像中提、羽管键琴中的一些伴奏音型都得到了很好的保留。输出结果整体听上去与原曲仍有较大差异。
+\item 我们先前提到过 K465 的引子部分具有鲜明的 \emph{不和谐性} ，这一点在输出样例 \textbf{K465-compound-deg4-Violin-Violin-Viola-Cello} 中得到了很好的保留，八分音符的紧张前行正与原曲的忧郁气质不谋而合。
+\end{itemize}
+
+\part*{组员信息}
+\begin{itemize}
+\item 陈子恒（组长） 数学科学学院 1500010632
+\item 李冉 政府管理学院 1700016915
+\item 刘清越 元培学院 1600017761
+\item 马龙 信息科学技术学院 170001271
+\item 闫明羽 物理学院 1600011381
+\item 杨一龙 地球与空间科学学院 1700012460
+
+\end{itemize}
 
 \bibliographystyle{apalike}
 \bibliography{ref}

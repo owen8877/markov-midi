@@ -10,10 +10,10 @@ def getCompoundRandomMusicWrapper(input: str, degree: int, instrumentTracks):
     output = MidoHelper(sample.tempo, sample.numerator, sample.denominator)
     for i, st in enumerate(m):
         output.addTrack(st, inst[i])
-    output.export("music/output/{input}_compound_deg{degree}_{ins}.mid".format(degree=degree, ins='_'.join([x.name for x in instrumentTracks.values()]), input=input))
+    output.export("music/output/{input}-compound-deg{degree}-{ins}.mid".format(degree=degree, ins='-'.join([x.name for x in instrumentTracks.values()]), input=input))
 
 
-def getIndependentRandomMusicWrapper(input: str, degree: int, instrumentTracks):
+def getIndependentRandomMusicWrapper(input: str, degree: int, instrumentTracks, ignoreDuration: bool=False):
     inst = list(instrumentTracks.values())
     inputFile = 'music/sample/{}.mid'.format(input)
     m = getIndependentRandomMusic(degree, *[MidoHelper.read(inputFile, trackId=x).getDefaultTrackNotes() for x in instrumentTracks.keys()])
@@ -21,7 +21,7 @@ def getIndependentRandomMusicWrapper(input: str, degree: int, instrumentTracks):
     output = MidoHelper(sample.tempo, sample.numerator, sample.denominator)
     for i, st in enumerate(m):
         output.addTrack(st, inst[i])
-    output.export("music/output/{input}_independent_deg{degree}_{ins}.mid".format(degree=degree, ins='_'.join([x.name for x in instrumentTracks.values()]), input=input))
+    output.export("music/output/{input}-independent-deg{degree}-{ins}{ignore}.mid".format(degree=degree, ins='-'.join([x.name for x in instrumentTracks.values()]), input=input, ignore="-ignore" if ignoreDuration else ""), ignoreDuration=ignoreDuration)
 
 
 def showSampleInfo(input: str):
@@ -30,45 +30,49 @@ def showSampleInfo(input: str):
     for i, t in enumerate(midi.tracks):
         print('Track: {}, Instrument: {}'.format(i, t.name))
 
-# cupheadITS = {
-#     1: InstrumentHelper.Clarinet,
-#     4: InstrumentHelper.Bassoon,
-#     7: InstrumentHelper.Violin,
-# }
-# getCompoundRandomMusicWrapper('cuphead', 1, cupheadITS)
-# getIndependentRandomMusicWrapper('cuphead', 1, cupheadITS)
+cupheadITS = {
+    1: InstrumentHelper.Clarinet,
+    4: InstrumentHelper.Bassoon,
+    7: InstrumentHelper.Violin,
+}
+getCompoundRandomMusicWrapper('cuphead', 1, cupheadITS)
+getIndependentRandomMusicWrapper('cuphead', 1, {1: InstrumentHelper.Clarinet})
+getIndependentRandomMusicWrapper('cuphead', 1, {1: InstrumentHelper.Clarinet}, ignoreDuration=True)
 # showSampleInfo('cuphead')
 
-# K465ITS = {
-#     1: InstrumentHelper.Violin,
-#     2: InstrumentHelper.Violin,
-#     3: InstrumentHelper.Viola,
-#     4: InstrumentHelper.Cello,
-# }
-# getCompoundRandomMusicWrapper('K465', 4, K465ITS)
-# getIndependentRandomMusicWrapper('K465', 2, K465ITS)
+K465ITS = {
+    1: InstrumentHelper.Violin,
+    2: InstrumentHelper.Violin,
+    3: InstrumentHelper.Viola,
+    4: InstrumentHelper.Cello,
+}
+getCompoundRandomMusicWrapper('K465', 4, K465ITS)
+getIndependentRandomMusicWrapper('K465', 2, K465ITS)
+getIndependentRandomMusicWrapper('K465', 2, {1: InstrumentHelper.Violin})
 # showSampleInfo('K465')
 
-# RV156ITS = {
-#     1: InstrumentHelper.Violin,
-#     2: InstrumentHelper.Violin,
-#     3: InstrumentHelper.Viola,
-#     4: InstrumentHelper.Cello,
-#     5: InstrumentHelper.Cello,
-#     6: InstrumentHelper.Harpsichord,
-# }
-# getCompoundRandomMusicWrapper('RV156', 4, RV156ITS)
-# getIndependentRandomMusicWrapper('RV156', 2, RV156ITS)
+RV156ITS = {
+    1: InstrumentHelper.Violin,
+    2: InstrumentHelper.Violin,
+    3: InstrumentHelper.Viola,
+    4: InstrumentHelper.Cello,
+    5: InstrumentHelper.Cello,
+    6: InstrumentHelper.Harpsichord,
+}
+getCompoundRandomMusicWrapper('RV156', 4, RV156ITS)
+getIndependentRandomMusicWrapper('RV156', 2, RV156ITS)
+getIndependentRandomMusicWrapper('RV156', 2, {4: InstrumentHelper.Cello})
 # showSampleInfo('RV156')
 
 MahlerITS = {
     1: InstrumentHelper.Violin,
     2: InstrumentHelper.Violin,
     3: InstrumentHelper.Viola,
-    # 4: InstrumentHelper.Viola,
+    4: InstrumentHelper.Viola,
     5: InstrumentHelper.Cello,
-    # 6: InstrumentHelper.Contrabass,
+    6: InstrumentHelper.Contrabass,
 }
-# getCompoundRandomMusicWrapper('Mahler', 4, MahlerITS)
+getCompoundRandomMusicWrapper('Mahler', 4, MahlerITS)
 getIndependentRandomMusicWrapper('Mahler', 4, MahlerITS)
-showSampleInfo('Mahler')
+getIndependentRandomMusicWrapper('Mahler', 4, {3: InstrumentHelper.Viola})
+# showSampleInfo('Mahler')

@@ -74,7 +74,7 @@ class MidoHelper:
     def getDefaultTrackNotes(self):
         return self.tracks[0]['list']
 
-    def export(self, filename: str):
+    def export(self, filename: str, ignoreDuration: bool=False):
         mid = MidiFile()
 
         metaTrack = MidiTrack()
@@ -96,9 +96,9 @@ class MidoHelper:
                 if note.noteOn:
                     midiTrack.append(Message('note_on', note=note.pitch, time=int(noteDelay)))
                     noteDelay = 0
-                    midiTrack.append(Message('note_off', note=note.pitch, time=int(delta*note.duration)))
+                    midiTrack.append(Message('note_off', note=note.pitch, time=int(delta*(note.duration if not ignoreDuration else 0.25))))
                 else:
-                    noteDelay += delta*note.duration
+                    noteDelay += delta*(note.duration if not ignoreDuration else 0.25)
 
         mid.save(filename)
 
