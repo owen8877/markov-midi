@@ -102,7 +102,7 @@ def printTransitionMatrix(init, cnt):
     with open("trans.txt", "w") as f:
         f.write("Notes:\n")
         for note in init.keys():
-            f.write(str(note) + " ")
+            f.write("({}) ".format('->'.join([n.pitchName() for n in note])))
         f.write("\n")
         for fr in init.keys():
             w = [0] * len(init)
@@ -113,9 +113,10 @@ def printTransitionMatrix(init, cnt):
                     w[i] = cnt[(fr, to)]
             if sum == 0:
                 sum = 1
+            f.write("[")
             for v in w:
-                f.write("{0:.2f} ".format(float(v) / sum))
-            f.write("\n")
+                f.write("{0:.2f},".format(float(v) / sum))
+            f.write("],\n")
 
 
 def printTransitionMatrix2(init, cnt):

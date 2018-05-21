@@ -15,8 +15,14 @@ class Note:
         subIndex = self.pitch % 12
         octave = self.pitch // 12 - 1
         return '{}{} 1/{}{}'.format(Note.ReverseMapping[subIndex], octave, 1/self.duration, '' if self.noteOn else ' rest')
-    
-    
+
+
+    def pitchName(self):
+        subIndex = self.pitch % 12
+        octave = self.pitch // 12 - 1
+        return '{}{}'.format(Note.ReverseMapping[subIndex], octave)
+
+
     def __repr__(self):
         return str(self)
     
