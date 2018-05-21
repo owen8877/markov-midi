@@ -4,18 +4,25 @@ import random
 
 
 def getTransitionMatrix(seq, deg = 1):
+    '''
+    Get sequence of notes seq as input, calculate the Markov chain transition matrix of degree deg. Return it as dictionary cnt.
+    
+    init is the frequency of notes in the whole sequence (used as initializing probability distribution in music generation)
+    '''
     init = dict()
     cnt = dict()
     cseq = tuple()
+    # Convert original sequence into new deg-degree sequence.
     curSymbol = tuple()
     for i in range(deg):
         curSymbol = curSymbol + (seq[i],)
     cseq = cseq + (curSymbol, )
     for i in range(deg, len(seq)):
-        curSymbol = curSymbol[:-1] + (seq[i],)
+        curSymbol = curSymbol[1:] + (seq[i],)
         cseq = cseq + (curSymbol, )
     for i in range(len(cseq)):
         if init.get(cseq[i]) is None:
+            # Add a new note into init
             init[cseq[i]] = 1
         else:
             init[cseq[i]] = init[cseq[i]] + 1
@@ -29,14 +36,19 @@ def getTransitionMatrix(seq, deg = 1):
 
 
 def generateRandomNotes(init: dict, cnt: dict, length: int):
+    '''
+    Get init and cnt as output by getTransitionMatrix, generate a random sequence of length length using this Markov model.
+    '''
     gen = []
     if length == 0:
         return gen
+    # Randomly sample a initial note from distribution init.
     cur = random.choices(list(init.keys()), list(init.values()), k = 1)[0]
     gen.append(cur)
     for i in range(length - 1):
         weight = []
         terminal = True
+        # Calculate transition from current note cur.
         for note in init.keys():
             if cnt.get((cur, note)) is None:
                 weight.append(0)
@@ -44,26 +56,38 @@ def generateRandomNotes(init: dict, cnt: dict, length: int):
                 weight.append(cnt[(cur, note)])
                 terminal = False
         if terminal:
+            # cur is a terminal node in the model. Sample again from initial distribution.
             cur = random.choices(list(init.keys()), list(init.values()), k=1)[0]
         else:
+            # Sample by this distribution
             cur = random.choices(list(init.keys()), weight)[0]
         gen.append(cur)
+    # In high degree model, we get just one new note by each transition.
     ret = gen[0] + tuple(map(lambda x: x[-1], gen[1:]))
     return ret
 
 
 def splitNotes(notes):
+    # Split note into unit-timed notes.
     return reduce(lambda x, y: x + y, map(lambda x: (Note(x.pitch, 1.0 / 8, x.noteOn), ) * round(x.duration * 8), notes))
 
 
 def getCompoundRandomMusic(deg: int, *trk):
+    '''
+    Get multiple note sequences trk, generate random music by their joint distribution.
+    '''
+    # Convert input sequences into a single sequence with each element as a "compound note".
     composedSeq = tuple(zip(*tuple(map(splitNotes, trk))))
     init, cnt = getTransitionMatrix(composedSeq, deg)
     res = generateRandomNotes(init, cnt, len(composedSeq) - deg + 1)
+    # Convert back into separate sequences.
     return reduce(lambda x, y: [x[i] + y[i] for i in range(len(x))], list(map(lambda x: [(x[i], ) for i in range(len(x))], res)))
 
 
 def getIndependentRandomMusic(deg: int, *trk):
+    '''
+    Get multiple note sequences trk, generate random music separately for each sequence.
+    '''
     ret = tuple()
     for tk in trk:
         init, cnt = getTransitionMatrix(tk, deg)
@@ -72,6 +96,9 @@ def getIndependentRandomMusic(deg: int, *trk):
 
 
 def printTransitionMatrix(init, cnt):
+    '''
+    Output transition matrix denoted by cnt into trans.txt.
+    '''
     with open("trans.txt", "w") as f:
         f.write("Notes:\n")
         for note in init.keys():
@@ -112,6 +139,9 @@ def printTransitionMatrix2(init, cnt):
 
 
 def drawTransitionMatrix(init, cnt):
+    '''
+    Generate (unfortunately badly drawn) network from the input Markov model.
+    '''
     import networkx as nx
     import pylab
     G = nx.DiGraph()
